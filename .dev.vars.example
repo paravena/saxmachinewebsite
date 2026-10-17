@@ -13,6 +13,5 @@ TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 # Inbox that receives the booking inquiries.
 CONTACT_TO=saxmachinee@gmail.com
 
-# Verified sender. Until the domain is verified in Resend, only
-# "onboarding@resend.dev" works and only to the account owner's address.
-CONTACT_FROM=Sax Machine <onboarding@resend.dev>
+# Verified sender on the saxmachineentertainment.com domain (verified in Resend).
+CONTACT_FROM=Sax Machine <noreply@saxmachineentertainment.com>

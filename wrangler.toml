@@ -7,4 +7,4 @@ pages_build_output_dir = "dist"
 # secrets in production; never put them here.
 [vars]
 CONTACT_TO = "saxmachinee@gmail.com"
-CONTACT_FROM = "Sax Machine <onboarding@resend.dev>"
+CONTACT_FROM = "Sax Machine <noreply@saxmachineentertainment.com>"
