@@ -32,14 +32,12 @@ export const metadata: Metadata = {
     description:
       'Professional saxophone duo (Jonathan Gatica & Felipe Vidal) for cruise lines, private events, and celebrations. Jazz, lounge, pop, and Latin rhythms.',
     url: '/',
-    images: [{ url: '/images/hero.jpg', alt: 'Sax Machine saxophone duo performing live' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description:
       'Professional saxophone duo (Jonathan Gatica & Felipe Vidal) for cruise lines, private events, and celebrations.',
-    images: ['/images/hero.jpg'],
   },
 };
 

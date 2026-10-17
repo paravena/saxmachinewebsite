@@ -101,7 +101,11 @@ export async function POST(request: Request): Promise<Response> {
     return fail('captcha_failed', 403);
   }
 
-  const human = await verifyTurnstile(TURNSTILE_SECRET_KEY, payload.turnstileToken, clientIp(request));
+  const human = await verifyTurnstile(
+    TURNSTILE_SECRET_KEY,
+    payload.turnstileToken,
+    clientIp(request)
+  );
   if (!human) return fail('captcha_failed', 403);
 
   if (!RESEND_API_KEY || !CONTACT_TO || !CONTACT_FROM) {
