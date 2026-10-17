@@ -1,24 +1,14 @@
+import { Resend } from 'resend';
 import {
   CONTACT_LIMITS,
   type ContactErrorCode,
   type ContactRequest,
   type ContactResponse,
-} from '../../src/types/contact';
-
-interface Env {
-  RESEND_API_KEY: string;
-  TURNSTILE_SECRET_KEY: string;
-  CONTACT_TO: string;
-  CONTACT_FROM: string;
-}
+} from '../../../types/contact';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-const json = (body: ContactResponse, status: number): Response =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { 'content-type': 'application/json; charset=utf-8' },
-  });
+const json = (body: ContactResponse, status: number): Response => Response.json(body, { status });
 
 const fail = (code: ContactErrorCode, status: number): Response =>
   json({ ok: false, code }, status);
@@ -45,6 +35,11 @@ const parsePayload = (raw: unknown): ParsedPayload | null => {
 
   return { name, email, serviceType, message, language, turnstileToken };
 };
+
+const clientIp = (request: Request): string | null =>
+  request.headers.get('fly-client-ip') ??
+  request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+  null;
 
 const verifyTurnstile = async (
   secret: string,
@@ -88,7 +83,9 @@ const buildEmail = (payload: ParsedPayload) => {
   return { subject, text };
 };
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export async function POST(request: Request): Promise<Response> {
+  const { RESEND_API_KEY, TURNSTILE_SECRET_KEY, CONTACT_TO, CONTACT_FROM } = process.env;
+
   let raw: unknown;
   try {
     raw = await request.json();
@@ -99,38 +96,33 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const payload = parsePayload(raw);
   if (payload === null) return fail('invalid_payload', 400);
 
-  if (!env.TURNSTILE_SECRET_KEY || !payload.turnstileToken) {
+  if (!TURNSTILE_SECRET_KEY || !payload.turnstileToken) {
     console.error('turnstile not configured or token missing');
     return fail('captcha_failed', 403);
   }
 
-  const human = await verifyTurnstile(
-    env.TURNSTILE_SECRET_KEY,
-    payload.turnstileToken,
-    request.headers.get('CF-Connecting-IP')
-  );
+  const human = await verifyTurnstile(TURNSTILE_SECRET_KEY, payload.turnstileToken, clientIp(request));
   if (!human) return fail('captcha_failed', 403);
+
+  if (!RESEND_API_KEY || !CONTACT_TO || !CONTACT_FROM) {
+    console.error('email delivery not configured');
+    return fail('send_failed', 500);
+  }
 
   const { subject, text } = buildEmail(payload);
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${env.RESEND_API_KEY}`,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: env.CONTACT_FROM,
-        to: [env.CONTACT_TO],
-        reply_to: payload.email,
-        subject,
-        text,
-      }),
+    const resend = new Resend(RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: CONTACT_FROM,
+      to: [CONTACT_TO],
+      replyTo: payload.email,
+      subject,
+      text,
     });
 
-    if (!res.ok) {
-      console.error('resend error', res.status, await res.text());
+    if (error) {
+      console.error('resend error', error);
       return fail('send_failed', 502);
     }
   } catch (error) {
@@ -139,15 +131,4 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   return json({ ok: true }, 200);
-};
-
-// Catch-all: Pages routes POST to `onRequestPost`, so anything reaching this
-// handler used a method the endpoint does not support.
-export const onRequest: PagesFunction<Env> = async () =>
-  new Response(JSON.stringify({ ok: false, code: 'invalid_payload' } satisfies ContactResponse), {
-    status: 405,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      allow: 'POST',
-    },
-  });
+}

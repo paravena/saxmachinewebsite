@@ -8,7 +8,7 @@ import { track } from '../../lib/analytics';
 import { useTurnstile } from '../../hooks/useTurnstile';
 
 const BOOKING_EMAIL = 'saxmachinee@gmail.com';
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error';
 

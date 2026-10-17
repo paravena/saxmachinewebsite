@@ -1,6 +1,6 @@
-/** Canonical production origin, configurable through `VITE_SITE_URL`. */
+/** Canonical production origin, configurable through `NEXT_PUBLIC_SITE_URL`. */
 export const SITE_URL: string = (
-  (import.meta.env.VITE_SITE_URL as string | undefined) ?? 'https://www.saxmachineentertainment.com'
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.saxmachineentertainment.com'
 ).replace(/\/$/, '');
 
 export const absoluteUrl = (path: string): string =>

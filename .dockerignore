@@ -1,0 +1,19 @@
+# `.env` is intentionally NOT ignored: it only holds public NEXT_PUBLIC_* values
+# that must be inlined during `next build`. Secrets live in Fly secrets.
+.env.local
+.env.*.local
+
+node_modules
+.next
+out
+coverage
+.git
+.gitignore
+.idea
+.vscode
+.junie
+*.log
+.DS_Store
+Dockerfile
+.dockerignore
+fly.toml

@@ -4,38 +4,35 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:functions": "wrangler pages dev -- npm run dev",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && wrangler pages deploy dist",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.functions.json",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "deploy": "fly deploy",
+    "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "resend": "^6.34.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20261016.1",
     "@eslint/js": "^9.39.5",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.3",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^15.15.0",
     "prettier": "^3.9.10",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.71.1",
-    "vite": "^5.4.10",
-    "wrangler": "^4.151.1"
+    "typescript-eslint": "^8.71.1"
   }
 }

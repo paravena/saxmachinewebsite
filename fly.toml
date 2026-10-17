@@ -1,0 +1,31 @@
+app = "saxmachinewebsite"
+primary_region = "gru"
+
+[build]
+  dockerfile = "Dockerfile"
+
+# Plain (non-secret) runtime variables. RESEND_API_KEY and TURNSTILE_SECRET_KEY
+# are set with `fly secrets set`; never put them here.
+[env]
+  CONTACT_TO = "saxmachinee@gmail.com"
+  CONTACT_FROM = "Sax Machine <noreply@saxmachineentertainment.com>"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/robots.txt"
+    timeout = "5s"
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1

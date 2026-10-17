@@ -4,9 +4,10 @@ node_modules/
 .pnp.js
 
 # Build output
-dist/
-dist-ssr/
+.next/
+out/
 build/
+next-env.d.ts
 *.local
 
 # Logs
@@ -22,13 +23,8 @@ lerna-debug.log*
 .env.local
 .env.*.local
 
-# Cloudflare
-.dev.vars
-.wrangler/
-
 # Caches
 .cache/
-.vite/
 .eslintcache
 .stylelintcache
 *.tsbuildinfo

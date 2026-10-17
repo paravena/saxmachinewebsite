@@ -3,12 +3,11 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import prettier from 'eslint-config-prettier';
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', 'coverage'] },
+  { ignores: ['.next', 'node_modules', 'coverage', 'next-env.d.ts'] },
 
   // Application source: React + TypeScript, browser environment.
   {
@@ -28,7 +27,6 @@ export default tseslint.config(
     plugins: {
       react,
       'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
       'jsx-a11y': jsxA11y,
     },
     rules: {
@@ -36,7 +34,6 @@ export default tseslint.config(
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       // The promo clips are purely instrumental performances with no spoken
       // content, so there is nothing to caption.
       'jsx-a11y/media-has-caption': 'off',
@@ -55,7 +52,7 @@ export default tseslint.config(
 
   // Build tooling runs in Node.
   {
-    files: ['*.config.{js,ts}', 'vite.config.ts'],
+    files: ['*.config.{js,ts}'],
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     languageOptions: {
       ecmaVersion: 2022,

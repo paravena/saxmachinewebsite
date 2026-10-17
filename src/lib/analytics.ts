@@ -5,9 +5,9 @@
  * `track(event, params)`. Swapping vendors only requires editing this file.
  *
  * Configuration (all optional, via `.env`):
- *   VITE_PLAUSIBLE_DOMAIN  - cookieless analytics (no consent banner required)
- *   VITE_PLAUSIBLE_SRC     - self-hosted script URL (defaults to plausible.io)
- *   VITE_GA_ID             - GA4 measurement ID (requires a consent gate in the EU)
+ *   NEXT_PUBLIC_PLAUSIBLE_DOMAIN  - cookieless analytics (no consent banner required)
+ *   NEXT_PUBLIC_PLAUSIBLE_SRC     - self-hosted script URL (defaults to plausible.io)
+ *   NEXT_PUBLIC_GA_ID             - GA4 measurement ID (requires a consent gate in the EU)
  */
 
 export type AnalyticsEvent =
@@ -29,10 +29,10 @@ declare global {
   }
 }
 
-const PLAUSIBLE_DOMAIN = import.meta.env.VITE_PLAUSIBLE_DOMAIN as string | undefined;
+const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const PLAUSIBLE_SRC =
-  (import.meta.env.VITE_PLAUSIBLE_SRC as string | undefined) ?? 'https://plausible.io/js/script.js';
-const GA_ID = import.meta.env.VITE_GA_ID as string | undefined;
+  process.env.NEXT_PUBLIC_PLAUSIBLE_SRC ?? 'https://plausible.io/js/script.js';
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 let initialized = false;
 
@@ -69,7 +69,7 @@ export const track = (event: AnalyticsEvent, params: AnalyticsParams = {}): void
   window.plausible?.(event, Object.keys(params).length ? { props: params } : undefined);
   window.gtag?.('event', event, params);
 
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line no-console
     console.debug('[analytics]', event, params);
   }

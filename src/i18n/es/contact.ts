@@ -16,7 +16,7 @@ export const contact: Record<keyof typeof enContact, string> = {
   'contact.form.options.other': 'Otro',
   'contact.form.message': 'Mensaje',
   'contact.form.messagePlaceholder': 'Fechas, barco / evento, detalles...',
-  'contact.form.submit': 'Enviar consulta',
+  'contact.form.submit': 'Enviar mensaje',
   'contact.form.sending': 'Enviando…',
   'contact.form.captcha': 'Confirma que eres una persona antes de enviar.',
   'contact.form.success.title': 'Gracias, tu consulta fue enviada.',

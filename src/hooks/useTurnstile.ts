@@ -47,7 +47,7 @@ const loadScript = (): Promise<void> =>
   });
 
 export interface UseTurnstileResult {
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
   token: string | null;
   reset: () => void;
   /** False when no site key is configured — callers should fall back to `mailto:`. */

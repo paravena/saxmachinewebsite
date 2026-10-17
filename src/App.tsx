@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { AudioProvider } from './context/AudioContext';
 import { Navbar } from './components/layout/Navbar';
@@ -19,6 +21,7 @@ import { FaqSection } from './components/sections/FaqSection';
 import { ContactSection } from './components/sections/ContactSection';
 import { StructuredData } from './components/seo/StructuredData';
 import { useScrollReveal } from './hooks/useScrollReveal';
+import { initAnalytics } from './lib/analytics';
 
 const MainContent: React.FC = () => {
   useScrollReveal();
@@ -49,6 +52,10 @@ const MainContent: React.FC = () => {
 };
 
 export const App: React.FC = () => {
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
     <LanguageProvider>
       <AudioProvider>

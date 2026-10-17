@@ -14,7 +14,7 @@ export const contact = {
   'contact.form.options.other': 'Other',
   'contact.form.message': 'Message',
   'contact.form.messagePlaceholder': 'Dates, ship/event, details...',
-  'contact.form.submit': 'Send inquiry',
+  'contact.form.submit': 'Send message',
   'contact.form.sending': 'Sending…',
   'contact.form.captcha': 'Please confirm you are human before sending.',
   'contact.form.success.title': 'Thanks, your inquiry is on its way.',

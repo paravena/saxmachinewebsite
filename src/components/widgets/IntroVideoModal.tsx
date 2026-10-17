@@ -3,13 +3,7 @@ import { useLanguage } from '../../context/LanguageContext';
 
 export const IntroVideoModal: React.FC = () => {
   const { t } = useLanguage();
-  const [visible, setVisible] = useState<boolean>(() => {
-    try {
-      return sessionStorage.getItem('sm_intro') !== '1';
-    } catch {
-      return true;
-    }
-  });
+  const [visible, setVisible] = useState<boolean>(true);
   const [isHiding, setIsHiding] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const doneRef = useRef<boolean>(false);
@@ -31,6 +25,16 @@ export const IntroVideoModal: React.FC = () => {
 
   useEffect(() => {
     if (!visible) return;
+
+    try {
+      if (sessionStorage.getItem('sm_intro') === '1') {
+        doneRef.current = true;
+        setVisible(false);
+        return;
+      }
+    } catch {
+      // Ignore sessionStorage errors
+    }
 
     document.body.classList.add('intro-on');
 
