@@ -18,7 +18,7 @@ export const contact: Record<keyof typeof enContact, string> = {
   'contact.form.messagePlaceholder': 'Fechas, barco / evento, detalles...',
   'contact.form.submit': 'Enviar mensaje',
   'contact.form.sending': 'Enviando…',
-  'contact.form.captcha': 'Confirma que eres una persona antes de enviar.',
+  'contact.form.captcha': 'Protegido por verificación anti-spam de Cloudflare.',
   'contact.form.success.title': 'Gracias, tu consulta fue enviada.',
   'contact.form.success.body':
     'Te responderemos dentro de 24 horas con disponibilidad y propuesta.',

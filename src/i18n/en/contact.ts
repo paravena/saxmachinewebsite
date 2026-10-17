@@ -16,7 +16,7 @@ export const contact = {
   'contact.form.messagePlaceholder': 'Dates, ship/event, details...',
   'contact.form.submit': 'Send message',
   'contact.form.sending': 'Sending…',
-  'contact.form.captcha': 'Please confirm you are human before sending.',
+  'contact.form.captcha': 'Protected by Cloudflare anti-spam verification.',
   'contact.form.success.title': 'Thanks, your inquiry is on its way.',
   'contact.form.success.body': "We'll reply within 24 hours with availability and a proposal.",
   'contact.form.error.title': "We couldn't send your message.",
