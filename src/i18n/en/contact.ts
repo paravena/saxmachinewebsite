@@ -15,6 +15,15 @@ export const contact = {
   'contact.form.message': 'Message',
   'contact.form.messagePlaceholder': 'Dates, ship/event, details...',
   'contact.form.submit': 'Send inquiry',
+  'contact.form.sending': 'Sending…',
+  'contact.form.captcha': 'Please confirm you are human before sending.',
+  'contact.form.success.title': 'Thanks, your inquiry is on its way.',
+  'contact.form.success.body': "We'll reply within 24 hours with availability and a proposal.",
+  'contact.form.error.title': "We couldn't send your message.",
+  'contact.form.error.body': 'Please try again, or write to us directly:',
+  'contact.form.error.invalidPayload': 'Please check your name, email and message and try again.',
+  'contact.form.error.captcha': 'The anti-spam check failed. Please solve it again and resend.',
+  'contact.form.error.mailtoLink': 'Email saxmachinee@gmail.com',
   'contact.form.note':
-    'On submit your email app opens with the message ready for Sax Machine (saxmachinee@gmail.com).',
+    'We reply within 24 hours. Your message goes straight to Sax Machine (saxmachinee@gmail.com).',
 } as const;

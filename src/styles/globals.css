@@ -826,6 +826,56 @@ form .btn-gold {
   text-align: center;
 }
 
+/* Turnstile challenge box */
+.turnstile-box {
+  margin: 4px 0 14px;
+  min-height: 65px;
+}
+
+.turnstile-hint {
+  font-size: 0.78rem;
+  color: #7a8699;
+  margin: 0 0 10px;
+}
+
+/* Submission status panels */
+.form-status {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(201, 164, 76, 0.35);
+  background: rgba(201, 164, 76, 0.08);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.form-status strong {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.form-status p {
+  margin: 0;
+}
+
+.form-status.success {
+  border-color: rgba(201, 164, 76, 0.5);
+  background: rgba(201, 164, 76, 0.12);
+  color: #1d2b3a;
+}
+
+.form-status.error {
+  border-color: rgba(176, 58, 46, 0.4);
+  background: rgba(176, 58, 46, 0.08);
+  color: #7a2b23;
+}
+
+.form-status a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 /* Footer */
 footer {
   background: var(--ink);

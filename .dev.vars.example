@@ -1,0 +1,18 @@
+# Copy to `.dev.vars` (gitignored) for local `wrangler pages dev` runs.
+# In production these are set in the Cloudflare Pages dashboard:
+#   Settings -> Environment variables (RESEND_API_KEY and TURNSTILE_SECRET_KEY
+#   as encrypted Secrets, CONTACT_TO / CONTACT_FROM as plain text).
+
+# Resend API key with "Sending access" only.
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
+
+# Turnstile secret key (the site key is public and goes in .env).
+# 1x0000000000000000000000000000000AA always passes — handy for local testing.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Inbox that receives the booking inquiries.
+CONTACT_TO=saxmachinee@gmail.com
+
+# Verified sender. Until the domain is verified in Resend, only
+# "onboarding@resend.dev" works and only to the account owner's address.
+CONTACT_FROM=Sax Machine <onboarding@resend.dev>

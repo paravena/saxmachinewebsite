@@ -3,23 +3,33 @@ import { useLanguage } from '../../context/LanguageContext';
 import { SectionHeader } from '../common/SectionHeader';
 import { Button } from '../common/Button';
 import { type ContactFormData } from '../../types/content';
+import { type ContactErrorCode, type ContactResponse } from '../../types/contact';
 import { track } from '../../lib/analytics';
+import { useTurnstile } from '../../hooks/useTurnstile';
 
 const BOOKING_EMAIL = 'saxmachinee@gmail.com';
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error';
+
+const EMPTY_FORM: ContactFormData = {
+  name: '',
+  email: '',
+  serviceType: '',
+  message: '',
+};
 
 export const ContactSection: React.FC = () => {
   const { language, t } = useLanguage();
   const isEn = language === 'en';
 
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: '',
-    email: '',
-    serviceType: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState<ContactFormData>(EMPTY_FORM);
+  const [status, setStatus] = useState<SubmitStatus>('idle');
+  const [errorCode, setErrorCode] = useState<ContactErrorCode | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const { containerRef, token, reset, enabled } = useTurnstile(TURNSTILE_SITE_KEY, language);
+
+  const buildMailto = (): string => {
     const name = formData.name.trim();
     const email = formData.email.trim();
     const type = formData.serviceType || t('contact.form.options.onboard');
@@ -33,12 +43,70 @@ export const ContactSection: React.FC = () => {
       ? `Name / Company: ${name}\nEmail: ${email}\nService type: ${type}\n\nMessage:\n${msg}\n`
       : `Nombre / Empresa: ${name}\nEmail: ${email}\nTipo de servicio: ${type}\n\nMensaje:\n${msg}\n`;
 
-    track('contact_form_submit', { service_type: type, language });
-
-    window.location.href = `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    return `mailto:${BOOKING_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+      body
+    )}`;
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const serviceType = formData.serviceType || t('contact.form.options.onboard');
+
+    // Legacy mode: without a Turnstile site key there is no protected endpoint
+    // to post to, so keep the original `mailto:` hand-off.
+    if (!enabled) {
+      track('contact_form_submit', { service_type: serviceType, language, transport: 'mailto' });
+      window.location.href = buildMailto();
+      return;
+    }
+
+    setStatus('submitting');
+    setErrorCode(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          serviceType,
+          message: formData.message.trim(),
+          language,
+          turnstileToken: token ?? '',
+        }),
+      });
+
+      const data = (await res.json().catch(() => null)) as ContactResponse | null;
+
+      if (res.ok && data?.ok) {
+        track('contact_form_submit', { service_type: serviceType, language, transport: 'api' });
+        setFormData(EMPTY_FORM);
+        setStatus('success');
+      } else {
+        const code: ContactErrorCode =
+          data && !data.ok ? data.code : res.status === 403 ? 'captcha_failed' : 'send_failed';
+        track('contact_form_error', { code, language });
+        setErrorCode(code);
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error('Contact form submission failed', error);
+      track('contact_form_error', { code: 'network', language });
+      setErrorCode('send_failed');
+      setStatus('error');
+    } finally {
+      // Turnstile tokens are single-use, so refresh the widget after every try.
+      reset();
+    }
+  };
+
+  const errorDetail =
+    errorCode === 'invalid_payload'
+      ? t('contact.form.error.invalidPayload')
+      : errorCode === 'captcha_failed'
+        ? t('contact.form.error.captcha')
+        : t('contact.form.error.body');
 
   return (
     <section className="contact" id="contact">
@@ -212,10 +280,34 @@ export const ContactSection: React.FC = () => {
                 onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
               />
             </div>
-            <Button type="submit" variant="gold">
-              {t('contact.form.submit')}
+            {enabled && (
+              <>
+                <p className="turnstile-hint">{t('contact.form.captcha')}</p>
+                <div className="turnstile-box" ref={containerRef} />
+              </>
+            )}
+            <Button
+              type="submit"
+              variant="gold"
+              disabled={status === 'submitting' || (enabled && !token)}
+            >
+              {status === 'submitting' ? t('contact.form.sending') : t('contact.form.submit')}
             </Button>
             <p className="form-note">{t('contact.form.note')}</p>
+            {status === 'success' && (
+              <div className="form-status success" role="status" aria-live="polite">
+                <strong>{t('contact.form.success.title')}</strong>
+                <p>{t('contact.form.success.body')}</p>
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="form-status error" role="status" aria-live="polite">
+                <strong>{t('contact.form.error.title')}</strong>
+                <p>
+                  {errorDetail} <a href={buildMailto()}>{t('contact.form.error.mailtoLink')}</a>
+                </p>
+              </div>
+            )}
           </form>
         </div>
       </div>

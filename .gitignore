@@ -22,6 +22,10 @@ lerna-debug.log*
 .env.local
 .env.*.local
 
+# Cloudflare
+.dev.vars
+.wrangler/
+
 # Caches
 .cache/
 .vite/

@@ -12,6 +12,7 @@
 
 export type AnalyticsEvent =
   | 'contact_form_submit'
+  | 'contact_form_error'
   | 'whatsapp_click'
   | 'press_kit_download'
   | 'video_play'
