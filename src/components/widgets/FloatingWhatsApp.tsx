@@ -4,7 +4,7 @@ import { track } from '../../lib/analytics';
 export const FloatingWhatsApp: React.FC = () => {
   return (
     <a
-      href="https://wa.me/56961448839"
+      href="https://wa.me/56976902854"
       className="wa-float"
       target="_blank"
       rel="noopener noreferrer"

@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
       <div className="wrap">
         <div className="social">
           <a
-            href="https://www.instagram.com/sax_machine_chile"
+            href="https://www.instagram.com/saxmachine.chile"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"

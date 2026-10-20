@@ -153,14 +153,24 @@ export const ContactSection: React.FC = () => {
                   >
                     WhatsApp
                   </div>
-                  <a
-                    href="https://wa.me/56961448839"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => track('whatsapp_click', { location: 'contact_section' })}
-                  >
-                    +56 9 6144 8839
-                  </a>
+                  {[
+                    { name: 'Felipe Vidal', phone: '+56 9 7333 9721', wa: '56973339721' },
+                    { name: 'Jonathan Gatica', phone: '+56 9 7690 2854', wa: '56976902854' },
+                  ].map(({ name, phone, wa }) => (
+                    <div key={wa}>
+                      <span style={{ color: '#7a8699', fontSize: '.85rem' }}>{name}: </span>
+                      <a
+                        href={`https://wa.me/${wa}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
+                          track('whatsapp_click', { location: 'contact_section', contact: name })
+                        }
+                      >
+                        {phone}
+                      </a>
+                    </div>
+                  ))}
                 </div>
               </li>
               <li>
@@ -179,11 +189,11 @@ export const ContactSection: React.FC = () => {
                     Instagram
                   </div>
                   <a
-                    href="https://www.instagram.com/sax_machine_chile"
+                    href="https://www.instagram.com/saxmachine.chile"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    @sax_machine_chile
+                    @saxmachine.chile
                   </a>
                 </div>
               </li>

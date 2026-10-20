@@ -88,12 +88,12 @@ export const MediaGallerySection: React.FC = () => {
             <span>▶</span> <span>{t('gallery.youtubeCta')}</span>
           </a>
           <a
-            href="https://www.instagram.com/sax_machine_chile"
+            href="https://www.instagram.com/saxmachine.chile"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track('outbound_click', { network: 'instagram' })}
           >
-            <span>📷</span> <span>Instagram @sax_machine_chile</span>
+            <span>📷</span> <span>Instagram @saxmachine.chile</span>
           </a>
         </div>
       </div>

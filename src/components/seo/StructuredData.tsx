@@ -36,7 +36,7 @@ export const StructuredData: FC = () => {
         { '@type': 'Person', name: 'Felipe Vidal', image: absoluteUrl('/images/felipe.jpeg') },
       ],
       sameAs: [
-        'https://www.instagram.com/sax_machine_chile',
+        'https://www.instagram.com/saxmachine.chile',
         'https://www.youtube.com/@SaxMachineChile',
       ],
     };
