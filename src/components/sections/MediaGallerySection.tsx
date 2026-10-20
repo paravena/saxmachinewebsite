@@ -80,7 +80,7 @@ export const MediaGallerySection: React.FC = () => {
 
         <div className="listen reveal">
           <a
-            href="https://www.youtube.com/@SaxMachineChile"
+            href="https://www.youtube.com/@saxmachinentertainment"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track('outbound_click', { network: 'youtube' })}

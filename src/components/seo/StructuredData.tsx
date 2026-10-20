@@ -37,7 +37,7 @@ export const StructuredData: FC = () => {
       ],
       sameAs: [
         'https://www.instagram.com/saxmachine.chile',
-        'https://www.youtube.com/@SaxMachineChile',
+        'https://www.youtube.com/@saxmachinentertainment',
       ],
     };
 

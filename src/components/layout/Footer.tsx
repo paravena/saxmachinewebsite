@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
             <InstagramIcon />
           </a>
           <a
-            href="https://www.youtube.com/@SaxMachineChile"
+            href="https://www.youtube.com/@saxmachinentertainment"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube"
@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
             <YouTubeIcon />
           </a>
           <a
-            href="https://wa.me/56961448839"
+            href="https://wa.me/56976902854"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"

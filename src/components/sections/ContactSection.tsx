@@ -213,11 +213,11 @@ export const ContactSection: React.FC = () => {
                     YouTube
                   </div>
                   <a
-                    href="https://www.youtube.com/@SaxMachineChile"
+                    href="https://www.youtube.com/@saxmachinentertainment"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    @SaxMachineChile
+                    @saxmachinentertainment
                   </a>
                 </div>
               </li>
